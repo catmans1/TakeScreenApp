@@ -2,31 +2,36 @@
   "name": "screen-app",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-scripts": "4.0.2",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+  "author": {
+    "name": "Daniel Le",
+    "email": "iu.developer232@yahoo.com"
   },
+  "license": "MIT",
+  "keywords": [
+    "electron",
+    "reactjs",
+    "desktopapp"
+  ],
+  "main": "build/electron/main.js",
+  "homepage": "./",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env PORT=3333 concurrently -n React,Electron -c cyan,green \"BROWSER=none yarn start:react\" \"wait-on http://localhost:3333 && tsc -p src/electron && electron .\"",
+    "build": "yarn build:react-electron && electron-builder",
+    "build:all": "yarn build:react-electron && electron-builder build -mwl",
+    "build:mac": "yarn build:react-electron && electron-builder build --mac",
+    "build:linux": "yarn build:react-electron && electron-builder build --linux",
+    "build:win": "yarn build:react-electron && electron-builder build --win --x64",
+    "release": "yarn build:react-electron && electron-builder --publish=always",
+    "release:win": "yarn build:win --publish=always",
+    "release:linux": "yarn build:linux --publish=always",
+    "release:mac": "yarn build:mac --publish=always",
+    "start:react": "react-scripts start",
+    "build:react": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -39,5 +44,28 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "electron-is-dev": "^1.2.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.2",
+    "typescript": "^4.1.2",
+    "web-vitals": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.31",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.0",
+    "concurrently": "^6.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^11.3.0",
+    "electron-builder": "^22.9.1",
+    "electron-reloader": "^1.2.0",
+    "wait-on": "^5.2.1"
   }
 }
