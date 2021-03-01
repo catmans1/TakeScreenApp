@@ -1,7 +1,10 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import isDev from 'electron-is-dev';
-import url from 'url';
+
+import TrayBuilder from './tray';
+
+let mainWindow: any;
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -10,7 +13,11 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
+      nativeWindowOpen: true,
     },
+    autoHideMenuBar: true,
+    center: true,
+    thickFrame: true,
   });
 
   // and load the index.html of the app.
@@ -24,13 +31,29 @@ const createWindow = () => {
     try {
       require('electron-reloader')(module);
     } catch (_) {}
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
   }
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  let tray: any = null;
+  mainWindow.on('minimize', function (event: any) {
+    event.preventDefault();
+    mainWindow.setSkipTaskbar(true);
+    tray = new TrayBuilder(mainWindow);
+  });
+
+  mainWindow.on('restore', function (event: any) {
+    mainWindow.show();
+    mainWindow.setSkipTaskbar(false);
+    tray.destroy();
+  });
+
+  return mainWindow;
 };
 
-app.on('ready', createWindow);
+app.whenReady().then(() => {
+  mainWindow = createWindow();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
