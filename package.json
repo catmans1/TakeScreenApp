@@ -18,8 +18,10 @@
     "start": "cross-env PORT=3333 concurrently -n React,Electron -c cyan,green \"BROWSER=none yarn start:react\" \"wait-on http://localhost:3333 && tsc -p src/electron && electron .\"",
     "build": "yarn build:react-electron && electron-builder",
     "build:all": "yarn build:css && yarn build:react-electron && electron-builder build -mwl",
+    "build:mac": "yarn build:react-electron && electron-builder build --mac",
     "start:react": "yarn watch:css && react-scripts start",
     "build:react": "yarn build:css && react-scripts build",
+    "build:react-electron": "react-scripts build && tsc -p src/electron",
     "build:css": "postcss src/react/css/tailwind.css -o src/react/css/main.css",
     "watch:css": "postcss src/react/css/tailwind.css -o src/react/css/main.css",
     "test": "react-scripts test",
@@ -41,9 +43,6 @@
     ]
   },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
     "electron-is-dev": "^1.2.0",
     "jimp": "^0.16.1",
     "react": "^17.0.1",
@@ -55,6 +54,9 @@
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.8.0",
     "@types/jest": "^26.0.15",
     "@types/node": "^14.14.31",
     "@types/react": "^17.0.2",
@@ -71,5 +73,16 @@
     "postcss-cli": "8.3.1",
     "tailwindcss": "^2.0.3",
     "wait-on": "^5.2.1"
+  },
+  "build":{
+    "appId": "com.share-wis.recorder",
+    "files":[
+      "build/**/*",
+      "package.json",
+      "public/icon.png"
+    ],
+    "mac":{
+
+    }
   }
 }

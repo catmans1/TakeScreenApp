@@ -3,6 +3,7 @@ import path from 'path';
 import isDev from 'electron-is-dev';
 
 import TrayBuilder from './tray';
+import NewRecord from './monitor';
 
 let mainWindow: any;
 
@@ -17,7 +18,6 @@ const createWindow = () => {
     },
     autoHideMenuBar: true,
     center: true,
-    thickFrame: true,
   });
 
   // and load the index.html of the app.
@@ -32,20 +32,23 @@ const createWindow = () => {
       require('electron-reloader')(module);
     } catch (_) {}
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
   }
 
   let tray: any = null;
+  let monitor: any = null;
   mainWindow.on('minimize', function (event: any) {
     event.preventDefault();
     mainWindow.setSkipTaskbar(true);
     tray = new TrayBuilder(mainWindow);
+    monitor = new NewRecord(mainWindow);
   });
 
   mainWindow.on('restore', function (event: any) {
     mainWindow.show();
     mainWindow.setSkipTaskbar(false);
-    tray.destroy();
+    tray.quitTray();
+    monitor.quit();
   });
 
   return mainWindow;

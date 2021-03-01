@@ -12,7 +12,7 @@ export default class TrayBuilder {
     const trayIcon = nativeImage.createFromPath(
       path.join(getAppBasePath(), 'public', 'logo192.png')
     );
-    this.tray = new Tray(trayIcon.resize({ height: 25, width: 25 }));
+    this.tray = new Tray(trayIcon.resize({ height: 20, width: 20 }));
     const menu = Menu.buildFromTemplate([
       {
         label: 'Show',
@@ -20,6 +20,7 @@ export default class TrayBuilder {
           mainWindow.show();
         },
       },
+      {type:"separator"},
       {
         label: 'Exit',
         click: function () {
@@ -32,5 +33,9 @@ export default class TrayBuilder {
     });
     this.tray.setToolTip('Screen app');
     this.tray.setContextMenu(menu);
+  }
+
+  quitTray() {
+    this.tray.destroy();
   }
 }
