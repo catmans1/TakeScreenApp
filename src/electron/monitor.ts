@@ -16,7 +16,6 @@ export default class NewRecord {
       webPreferences: {
         nodeIntegration: true,
         enableRemoteModule: true,
-        nativeWindowOpen: true,
       },
       autoHideMenuBar: true,
       center: true,

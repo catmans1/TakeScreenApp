@@ -5,7 +5,7 @@ import isDev from 'electron-is-dev';
 import TrayBuilder from './tray';
 import NewRecord from './monitor';
 
-let mainWindow: any;
+// let mainWindow: any;
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -14,7 +14,6 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
-      nativeWindowOpen: true,
     },
     autoHideMenuBar: true,
     center: true,
@@ -55,7 +54,7 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
-  mainWindow = createWindow();
+  createWindow();
 });
 
 app.on('window-all-closed', () => {
