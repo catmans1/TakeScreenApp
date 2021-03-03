@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import path from 'path';
 import isDev from 'electron-is-dev';
 
@@ -6,7 +6,7 @@ import TrayBuilder from './tray';
 import NewRecord from './monitor';
 
 // let mainWindow: any;
-
+// Menu.setApplicationMenu(null);
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -48,6 +48,7 @@ const createWindow = () => {
     mainWindow.setSkipTaskbar(false);
     tray.quitTray();
     monitor.quit();
+    mainWindow.webContents.send('show-user', true);
   });
 
   return mainWindow;
@@ -67,6 +68,10 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+});
+
+ipcMain.on('message-send', (event, arg) => {
+  console.log('react send to electron', arg);
 });
 
 export {};

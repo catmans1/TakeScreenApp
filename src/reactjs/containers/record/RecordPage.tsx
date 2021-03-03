@@ -1,13 +1,14 @@
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import './Drag.scss';
+import { useAuthentication } from 'reactjs/hooks';
 
 const electron = window.require('electron');
 const WIN = electron.remote.getCurrentWindow();
 
 const RecordPage = () => {
   const history = useHistory();
+  const { setUser, user } = useAuthentication();
 
   const onMinimize = () => {
     WIN.minimize();
@@ -15,10 +16,12 @@ const RecordPage = () => {
   console.log('record');
   const onHandleRecord = () => {
     alert('record');
+    setUser({ record: 'record' });
   };
 
   const onHandlePause = () => {
     alert('pause');
+    setUser({ pause: 'pause' });
   };
 
   return (

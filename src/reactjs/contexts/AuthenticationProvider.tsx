@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react';
 
 const AuthenticationContext = createContext({
   isLogin: false,
-  user: null,
+  user: {},
   setUser: (user: any) => {},
   setLogin: (login: boolean) => {},
 });

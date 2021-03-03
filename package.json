@@ -22,8 +22,8 @@
     "start:react": "yarn watch:css && react-scripts start",
     "build:react": "yarn build:css && react-scripts build",
     "build:react-electron": "react-scripts build && tsc -p src/electron",
-    "build:css": "postcss src/react/css/tailwind.css -o src/react/css/main.css",
-    "watch:css": "postcss src/react/css/tailwind.css -o src/react/css/main.css",
+    "build:css": "postcss src/reactjs/css/tailwind.css -o src/reactjs/css/main.css",
+    "watch:css": "postcss src/reactjs/css/tailwind.css -o src/reactjs/css/main.css",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
