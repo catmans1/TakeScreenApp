@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useAuthentication } from 'reactjs/hooks';
-import { formatDiagnostic } from 'typescript';
-
 const electron = window.require('electron');
 const WIN = electron.remote.getCurrentWindow();
 const desktopCapturer = electron.desktopCapturer;
@@ -18,11 +15,11 @@ const electronScreen = electron.remote.screen;
 const MonitorPage = () => {
   const history = useHistory();
   const [images, setImages] = useState<any[]>([]);
-  const { user } = useAuthentication();
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
-    ipcRenderer.on('show-user', () => {
-      alert(JSON.stringify(user));
+    ipcRenderer.on('show-user', (event: any, message: string) => {
+      setMessage(message);
     });
   }, []);
 
@@ -75,7 +72,7 @@ const MonitorPage = () => {
           Monitor Page
         </div>
         <div className="text-2xl font-thin text-red-500 text-center">
-          {JSON.stringify(user)}
+          {message}
         </div>
         <div
           className="mt-9 text-center hover:bg-gray-300 border-0 cursor-pointer"

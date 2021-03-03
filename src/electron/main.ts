@@ -6,7 +6,7 @@ import TrayBuilder from './tray';
 import NewRecord from './monitor';
 
 // let mainWindow: any;
-// Menu.setApplicationMenu(null);
+Menu.setApplicationMenu(null);
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -48,7 +48,7 @@ const createWindow = () => {
     mainWindow.setSkipTaskbar(false);
     tray.quitTray();
     monitor.quit();
-    mainWindow.webContents.send('show-user', true);
+    mainWindow.webContents.send('show-user', 'minimize');
   });
 
   return mainWindow;
